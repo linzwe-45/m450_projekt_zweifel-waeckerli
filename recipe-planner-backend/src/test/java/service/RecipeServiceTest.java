@@ -122,4 +122,22 @@ class RecipeServiceTest {
         verify(repository).save(entity);
         verify(mapper).entityToDomain(savedEntity);
     }
+
+    //TDD - Test Driven Development
+    @Test
+    void getRecipeById_shouldThrowExceptionWhenRecipeDoesNotExist() {
+
+        UUID id = UUID.randomUUID();
+
+        when(repository.findById(id))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                java.util.NoSuchElementException.class,
+                () -> service.getRecipeById(id)
+        );
+
+        verify(repository).findById(id);
+        verifyNoInteractions(mapper);
+    }
 }
