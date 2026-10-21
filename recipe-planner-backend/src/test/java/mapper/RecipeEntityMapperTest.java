@@ -1,7 +1,7 @@
+
 package mapper;
 
 import ch.tbz.recipe.planner.domain.Recipe;
-import ch.tbz.recipe.planner.domain.Unit;
 import ch.tbz.recipe.planner.entities.RecipeEntity;
 import ch.tbz.recipe.planner.mapper.RecipeEntityMapper;
 import ch.tbz.recipe.planner.mapper.RecipeEntityMapperImpl;
@@ -17,6 +17,7 @@ class RecipeEntityMapperTest {
 
     @Test
     void domainToEntity_shouldMapRecipe() {
+        // Testet ob die Umwandlung von Recipe zu RecipeEntity funktioniert.
         UUID id = UUID.randomUUID();
         Recipe recipe = new Recipe(
                 id,
@@ -26,6 +27,7 @@ class RecipeEntityMapperTest {
                 List.of()
         );
         RecipeEntity result = mapper.domainToEntity(recipe);
+        // Prüft, ob die Daten korrekt übernommen wurden.
         assertEquals(id, result.getId());
         assertEquals("Pizza", result.getName());
         assertEquals("Pizza mit Käse", result.getDescription());
@@ -35,6 +37,7 @@ class RecipeEntityMapperTest {
 
     @Test
     void entityToDomain_shouldMapRecipe() {
+        // Testet ob die Umwandlung von RecipeEntity zu Recipe auch funktioniert.
         UUID id = UUID.randomUUID();
         RecipeEntity entity = new RecipeEntity(
                 id,
@@ -44,6 +47,7 @@ class RecipeEntityMapperTest {
                 List.of()
         );
         Recipe result = mapper.entityToDomain(entity);
+        // Prüft, ob die Daten korrekt übernommen wurden.
         assertEquals(id, result.getId());
         assertEquals("Pizza", result.getName());
         assertEquals("Pizza mit Käse", result.getDescription());
@@ -51,4 +55,5 @@ class RecipeEntityMapperTest {
         assertNotNull(result.getIngredients());
     }
 }
+
 
