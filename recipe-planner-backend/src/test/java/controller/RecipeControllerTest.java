@@ -8,48 +8,72 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.UUID;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @WebMvcTest(RecipeController.class)
 @ContextConfiguration(classes = {RecipeController.class, RecipeEntityMapper.class})
 class RecipeControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
+
     @MockBean
     private RecipeService service;
+
     @MockBean
     private RecipeEntityMapper mapper;
 
     @Test
     void getRecipes_shouldReturnRecipes() throws Exception {
-        Recipe recipe = new Recipe(
+        // Testet, ob mehrere Rezepte vom Service gefunden werden können und korrekt in der HTTP-Response angezeigt werden.
+
+        Recipe pizza = new Recipe(
                 UUID.randomUUID(),
                 "Pizza",
                 "Pizza with tomato",
                 "pizza.jpg",
                 List.of()
         );
+
+        Recipe pasta = new Recipe(
+                UUID.randomUUID(),
+                "Pasta",
+                "Pasta with tomato sauce",
+                "pasta.jpg",
+                List.of()
+        );
+
         when(service.getRecipes())
-                .thenReturn(List.of(recipe));
+                .thenReturn(List.of(pizza, pasta));
+
         mockMvc.perform(get("/api/recipes"))
                 .andExpect(status().isOk())
+                // Prüft, ob genau zwei Rezepte zurückkommen.
+                .andExpect(jsonPath("$.length()").value(2))
+                // Prüft, ob das Pizza Rezept korrekt zurückkommt.
                 .andExpect(jsonPath("$[0].name").value("Pizza"))
                 .andExpect(jsonPath("$[0].description")
-                        .value("Pizza with tomato"));
+                        .value("Pizza with tomato"))
+                // Prüft, ob das Pasta Rezept korrekt zurückkommt.
+                .andExpect(jsonPath("$[1].name").value("Pasta"))
+                .andExpect(jsonPath("$[1].description")
+                        .value("Pasta with tomato sauce"));
     }
 
     @Test
     void getRecipes_shouldReturnEmptyList() throws Exception {
+        // Testet, ob der Endpunkt eine leere JSON-Liste zurückgibt, wenn der Service keine Rezepte findet.
+
         when(service.getRecipes())
                 .thenReturn(List.of());
+
         mockMvc.perform(get("/api/recipes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -57,7 +81,10 @@ class RecipeControllerTest {
 
     @Test
     void getRecipe_shouldReturnRecipe() throws Exception {
+        // Testet, ob ein einzelnes Rezept anhand seiner ID geladen werden kann und die korrekten rezept details zurückgegeben werden.
+
         UUID id = UUID.randomUUID();
+
         Recipe recipe = new Recipe(
                 id,
                 "Pizza",
@@ -65,8 +92,10 @@ class RecipeControllerTest {
                 "pizza.jpg",
                 List.of()
         );
+
         when(service.getRecipeById(id))
                 .thenReturn(recipe);
+
         mockMvc.perform(
                         get("/api/recipes/recipe/" + id)
                 )
