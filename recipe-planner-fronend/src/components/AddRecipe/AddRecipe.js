@@ -25,6 +25,27 @@ function AddRecipe() {
         formState: {errors},
     } = useForm()
 
+    const onSubmit = async (data) => {
+        const recipe = {
+            ...data,
+            ingredients: formData.ingredients
+        };
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/recipes',
+                recipe
+            );
+
+            console.log('Rezept gesaved:', response.data);
+            alert('Rezept gespeichert');
+        } catch (error) {
+            console.error('Error save:', error);
+            alert('Rezept nicht gespeichert');
+        }
+    };
+
+
     const addIngredient = () => {
 
         setFormData(({...formData, ingredients: [
@@ -62,49 +83,78 @@ function AddRecipe() {
         removeIngredient={removeIngredient}
     />)
 
+
     return (
-        <>
-            <div className="bg">
-                <div className="m-3">
-                    <h1 className="h3 bg-dark text-bg-primary mt-2">Add Recipe</h1>
-                    <Form.Group className="mb-1" controlId="formBasicName">
-                        <Form.Label>Recipe Name:</Form.Label>
-                        <Form.Control placeholder="Name"/>
-                    </Form.Group><Form.Group className="mb-1" controlId="formBasicDescription">
-                        <Form.Label>Description:</Form.Label>
-                        <Form.Control placeholder="Description"/>
-                    </Form.Group><Form.Group className="mb-1 mb-5" controlId="formBasicImageUrl">
-                        <Form.Label>Image URL:</Form.Label>
-                        <Form.Control placeholder="URL"/>
-                    </Form.Group>
+        <div className="bg">
+            <div className="m-3">
+                <h1 className="h3 bg-dark text-bg-primary mt-2">
+                    Add Recipe
+                </h1>
+
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-1">
+                        <label htmlFor="recipeName">Recipe Name:</label>
+                        <input
+                            id="recipeName"
+                            className="form-control"
+                            placeholder="Name"
+                            {...register("name", { required: true })}
+                        />
+                    </div>
+
+                    <div className="mb-1">
+                        <label htmlFor="description">Description:</label>
+                        <input
+                            id="description"
+                            className="form-control"
+                            placeholder="Description"
+                            {...register("description")}
+                        />
+                    </div>
+
+                    <div className="mb-5">
+                        <label htmlFor="imageUrl">Image URL:</label>
+                        <input
+                            id="imageUrl"
+                            className="form-control"
+                            placeholder="URL"
+                            {...register("imageUrl")}
+                        />
+                    </div>
+
                     <Row>
                         <Col>Ingredient</Col>
                         <Col>Unit</Col>
-                        <Col>Quanity</Col>
+                        <Col>Quantity</Col>
                         <Col xs={1}></Col>
                     </Row>
-                    <hr/>
-                    <Row>
-                        <br></br>
-                    </Row>
+
+                    <hr />
+
                     {renderIngredients}
-                    <Row>
-                        <br></br>
-                        <Button
-                            variant='warning'
-                            onClick={addIngredient}
-                            className="mt-1"
-                            >Add Ingredient</Button>
-                    </Row>
-                    <Button variant="primary"  type="submit" className="mb-5">
-                        Submit
+
+                    <Button
+                        variant="warning"
+                        onClick={addIngredient}
+                        className="mt-1 mb-3"
+                        type="button"
+                    >
+                        Add Ingredient
                     </Button>
-                </div>
 
+                    <div>
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            className="mb-5"
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </Form>
             </div>
-
-        </>
-    )
+        </div>
+    );
 }
 
 export default AddRecipe;
