@@ -26,9 +26,20 @@ public class RecipeService {
         return recipesEntities.stream().map(mapper::entityToDomain).toList();
     }
 
+   // public Recipe getRecipeById(UUID recipeId) {
+   //     return mapper.entityToDomain(repository.findById(recipeId).orElse(null));
+   // } // OLD version (before TDD)
+   // new version for TDD
     public Recipe getRecipeById(UUID recipeId) {
-        return mapper.entityToDomain(repository.findById(recipeId).orElse(null));
-    }
+       return mapper.entityToDomain(
+               repository.findById(recipeId)
+                       .orElseThrow(() ->
+                               new java.util.NoSuchElementException(
+                                       "Rezept mit ID " + recipeId + " wurde nicht gefunden."
+                               )
+                       )
+       );
+   }
 
     public Recipe addRecipe(Recipe recipe) {
         var createdRecipe = repository.save(mapper.domainToEntity(recipe));
