@@ -27,6 +27,9 @@ Anforderungen:
   - In diesem Fall können wir dann zuerst die Testfälle schreiben und dann die Methode implementieren 
 
 - Es sind aktiv pro Team Member 3 Pull Requests einzusehen die aktiv kommentiert, challenged und konstruktive Beiträge haben
+  - Diese Anfoerung haben wir zuerst übersehen da uns nicht bewusst war das bei github ein PullRequest das gleiche ist wie ein Merge request
+    - Wir haben anfangs auf dem gleichen Branche gearbeitet und konnten so überhaput keine merge requests erstellen
+    - Nachdem uns das aber bewusst war haben wir natürlich unsere eigenen featuere-Branches erstellt von denen wir dann Pull Requests eröffnen können.
 
 - Es soll eine kleine Dokumentation erstellt werden
   - Kurze Planung (ohne GANT)
