@@ -17,10 +17,9 @@ class IngredientEntityMapperTest {
     private final IngredientEntityMapper mapper =
             new IngredientEntityMapperImpl();
 
-
     @Test
     void domainToEntity_shouldMapIngredient() {
-
+        // testet Umwandlung von Ingredient zu IngredientEntity.
         UUID id = UUID.randomUUID();
 
         Ingredient ingredient = new Ingredient(
@@ -34,6 +33,7 @@ class IngredientEntityMapperTest {
         IngredientEntity result =
                 mapper.domainToEntity(ingredient);
 
+        // Prüft dass alle Eigenschaften korrekt übernommen wurden
         assertEquals(id, result.getId());
         assertEquals("Tomato", result.getName());
         assertEquals("The red ones", result.getComment());
@@ -41,10 +41,9 @@ class IngredientEntityMapperTest {
         assertEquals(5, result.getAmount());
     }
 
-
     @Test
     void entityToDomain_shouldMapIngredient() {
-
+        // Testet Umwandlung von IngredientEntity zu Ingredient.
         UUID id = UUID.randomUUID();
 
         IngredientEntity entity = new IngredientEntity(
@@ -58,6 +57,7 @@ class IngredientEntityMapperTest {
         Ingredient result =
                 mapper.entityToDomain(entity);
 
+        // Prüft ob alle korrekt
         assertEquals(id, result.getId());
         assertEquals("Tomato", result.getName());
         assertEquals("The big ones", result.getComment());
@@ -65,10 +65,9 @@ class IngredientEntityMapperTest {
         assertEquals(5, result.getAmount());
     }
 
-
     @Test
     void entitiesToDomains_shouldMapList() {
-
+        // Testet Umwandlung einer Liste von Entities in Domain-Objekte
         IngredientEntity entity1 = new IngredientEntity(
                 UUID.randomUUID(),
                 "Tomato",
@@ -90,15 +89,15 @@ class IngredientEntityMapperTest {
                         List.of(entity1, entity2)
                 );
 
+        // Prüft Anzahl und Namen der umgewandelten Zutaten
         assertEquals(2, result.size());
         assertEquals("Tomato", result.get(0).getName());
         assertEquals("Flour", result.get(1).getName());
     }
 
-
     @Test
     void domainsToEntities_shouldMapList() {
-
+        // Testet Umwandlung einer Liste von Domain-Objekten in Entities
         Ingredient ingredient1 = new Ingredient(
                 UUID.randomUUID(),
                 "Tomato",
@@ -120,6 +119,7 @@ class IngredientEntityMapperTest {
                         List.of(ingredient1, ingredient2)
                 );
 
+        // Prüft Anzahl und Namen der umgewandelten Entities
         assertEquals(2, result.size());
         assertEquals("Tomato", result.get(0).getName());
         assertEquals("Flour", result.get(1).getName());
