@@ -23,8 +23,11 @@ Anforderungen:
     - Zusammenfassung aller Testklassen
 
 - TDD soll mal ausprobiert werden
-  - Dafür müssen wir eine zusätzliche methode implementieren die irgendwie sinn ergibt
-  - In diesem Fall können wir dann zuerst die Testfälle schreiben und dann die Methode implementieren 
+  - In diesem Fall können zuerst die Testfälle schreiben und dann die Methode implementieren 
+  - Exception/ feherverhalten/ rückmeldungen verbessern
+    - Methode in RecipeService gibt wenn das Rezept nicht existiert null zurück
+      - Idee Methode soll eine Java NoSuchElementException werfen die klar macht was der fehler ist. 
+    - Http Status beim addRecipe 
 
 - Es sind aktiv pro Team Member 3 Pull Requests einzusehen die aktiv kommentiert, challenged und konstruktive Beiträge haben
   - Diese Anfoerung haben wir zuerst übersehen da uns nicht bewusst war das bei github ein PullRequest das gleiche ist wie ein Merge request
