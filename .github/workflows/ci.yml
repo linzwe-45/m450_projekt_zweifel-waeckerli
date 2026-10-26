@@ -26,4 +26,12 @@ jobs:
           cache: maven
 
       - name: Build und Tests ausführen
+        working-directory: recipe-planner-backend
         run: mvn --batch-mode verify
+
+      - name: JaCoCo Report hochladen
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: recipe-planner-backend/target/site/jacoco/
