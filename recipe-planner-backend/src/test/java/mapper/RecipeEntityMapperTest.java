@@ -54,6 +54,17 @@ class RecipeEntityMapperTest {
         assertEquals("pizza.jpg", result.getImageUrl());
         assertNotNull(result.getIngredients());
     }
+
+    @Test
+    void domainToEntity_NullMapping() {
+        assertNull(mapper.domainToEntity(null));
+    }
+
+    @Test
+    void entityToDomain_NullMapping() {
+        assertNull(mapper.entityToDomain(null));
+    }
+
 }
 
 
