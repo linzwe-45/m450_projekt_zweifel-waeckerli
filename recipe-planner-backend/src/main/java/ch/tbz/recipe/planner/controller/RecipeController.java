@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class RecipeController {
     }
 
     @PostMapping(value = "/api/recipes")
-    public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
+    public ResponseEntity<Recipe> addRecipe(@Valid @RequestBody Recipe recipe) {
         return new ResponseEntity<>(service.addRecipe(recipe), HttpStatus.CREATED);
     }
 

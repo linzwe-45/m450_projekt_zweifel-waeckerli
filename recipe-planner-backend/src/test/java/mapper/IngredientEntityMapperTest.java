@@ -124,4 +124,24 @@ class IngredientEntityMapperTest {
         assertEquals("Tomato", result.get(0).getName());
         assertEquals("Flour", result.get(1).getName());
     }
+
+    @Test
+    void domainToEntity_NullMapping() {
+        assertNull(mapper.domainToEntity(null));
+    }
+
+    @Test
+    void entityToDomain_NullMapping() {
+        assertNull(mapper.entityToDomain(null));
+    }
+
+    @Test
+    void domainsToEntities_NullMapping() {
+        assertNull(mapper.domainsToEntities(null));
+    }
+
+    @Test
+    void entitiesToDomains_NullMapping() {
+        assertNull(mapper.entitiesToDomains(null));
+    }
 }
