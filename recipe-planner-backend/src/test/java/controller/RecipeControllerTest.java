@@ -115,9 +115,25 @@ class RecipeControllerTest {
         when(service.addRecipe(any(Recipe.class)))
                 .thenReturn(recipe);
 
+        String recipeJson = """
+        {
+          "name": "Pizza",
+          "description": "Pizza mit Käse",
+          "imageUrl": "pizza.jpg",
+          "ingredients": [
+            {
+              "name": "Tomate",
+              "comment": "Frisch",
+              "unit": "PIECE",
+              "amount": 5
+            }
+          ]
+        }
+        """;
+
         mockMvc.perform(post("/api/recipes")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{}"))
+                        .content(recipeJson))
                 .andExpect(status().isCreated());
     }
 }
